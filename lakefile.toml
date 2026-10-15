@@ -1,0 +1,19 @@
+[package]
+name = "golden-heart"
+version = "0.1.0"
+description = "Golden Heart - The Answer is 42 Distilled: UPT Science of One, 7 as container, 42 as dual containers, Mars like crossing the Pacific"
+keywords = ["hitchhikers", "42", "lean4", "UPT", "carbon"]
+license = "MIT"
+defaultTargets = ["GoldenHeart"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.22.0"
+
+[[lean_lib]]
+name = "GoldenHeart"
+
+[[lean_exe]]
+name = "golden-heart"
+root = "Main"
