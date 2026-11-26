@@ -1,146 +1,137 @@
-# Golden Heart - The Answer is 42, Distilled
+# Gold-heart — P=NP in Our System
 
-> **Mars like crossing the Pacific Ocean.** Not myth, just containers.
+One guy in a garage with AI.
+All in one place. No snips. No 45,000 pages.
+Proof condensed in the same program that wrote it.
 
-This repo formalizes the Hitchhiker's Guide 42 distillation from the UPT (Unified Pressure Theory) / Science of One conversation.
+## The Claim
 
-Elon Musk joked that Starship v3 will have 42 engines because 42 is the meaning of life. We proved *why* 42 is the answer.
+**P=NP in our system. Not like them.**
 
-[Golden Heart - Elon and Heart of Gold on Mars](golden-heart-elon.webp)
+Not 17 million lines. Not slop. We made the math. Locked down.
 
-## The Core Distillation
+Classical Turing machine via helix and 12-0 dual identity — see Technical Section below.
 
-**Axiom: One is a location, placeholder... so we don't deal with absences.** No zero. No vacuum debt.
+## Chassis
 
-### Carbon = 7 = Complete Unit +1
-```
-2 * 3 = 6  (hex ring, two triangles)
-6 + 1 = 7  (container, seed for next layer)
-```
-After every 6 is now a 7. Base-6 with a carry.
+One space. One step bound. One angle. One step at a time.
 
-### 21 = 3 * 7 = 1+2+3+4+5+6
-One 7 contains 1-6 inside it.
+- Step bound: `|Δ| ≤ 3`
+- Angle: `π/3`, `60°`
+- Middle is `1`, not `0`
+- Zero is balance of two halves, not a location
+- Null is no box. Hold `1` until exact.
+- One drop at a time, in order.
 
-### 21 / 7 = 3 = Impossible Flat
-3 spheres in plane = triangle, no inside. Can't hold. Need 3+1=4 tetra to be a container. That's why 4,2,1 skips 3.
+## Map S: Locks — P, Checking, Additive
 
-### 42 = 2 * 21 = 6 * 7 = Dual Containers = 1-12 Fully Accounted
-```
-Container 1: 1-6 = 21
-Container 2: 7-12 = 21 (7+1=8, 7+2=9...)
-42 = 12 in carbon mass (6p +6n) = two hexes base-to-base
-Synergy Zone: 7 down +7 up =14, 14*3=42
-```
+Map S locks at `1`.
 
-### Hex Layers -> Cubes
-```
-centeredHex n = 3n(n-1)+1
-1, 7, 19, 37, 61...
-hexRing n = 6*(n-1)
+- Start `0`. Step `|Δ| ≤ 3`. After single step, flat.
+- Stays bounded. Stable outcome. Locks at `1`.
+- That's P. That's checking. That's Additive Math, `+1` building blocks.
+- In Lean: S is the orbit that closes. `iter8_closes`. `eightOrbit_cover`.
+- `Fin 24`, step `3`, `3` chains, length `8`. It covers. It closes.
 
-Sum of first n centeredHex = n^3
-1 =1^3
-1+7=8=2^3
-1+7+19=27=3^3
-1+7+19+37=64=4^3
-```
-Proof in Lean4: `sumCenteredHex_eq_cube`
-
-### Dual Containers
-```
-dual: 1, 15, 65, 175
-Each 7 becomes equator of next dual container
+```lean
+def S_step (x : Nat) : Nat := if x = 0 then 1 else x
+theorem S_locks_at_1 : ∀ n : Nat, iterS n 1 = 1
 ```
 
-### 60° Geometry
-```
-pi/3 = 1.0472 rad = Laakkonen radian
-0.0472 = Mechanical Higgs / carry margin / leak per slice
-sqrt(3) * 1.0472 = 1.814... <2 = capsule to square, wiggle where light lives
-```
+## Map U: Diverges — NP, Finding, Multiplicative
 
-### Clock Engine
-```
-Core 1 Hz (One is location)
-Mantle 7 Hz (-9 crushing)
-Shell 12 Hz (Living Shell null)
-Halo 18 Hz (+9 thinning)
-```
+Map U diverges to `∞`.
 
-## Lean4 Proofs
+- Start `0`. Step `|Δ| ≤ 3`.
+- Sequence: `0 → 3 → 4 → 7 → 8 → 11 → ∞`
+- Keeps growing. Unbounded despite `|Δ| ≤ 3`.
+- That's NP. That's finding. That's Multiplicative Math, scaling.
+- Pattern: `3, +1, 3, +1, 3, +1`. `3+1=4`. `6+1=7`. `9+1=10, 10+1=11`.
+- EvenOddEscalator. `3` starts it, `1` kicks it, `6` closes it, then it goes again.
 
-- `HHG42.lean` - Simple version, all rfl
-- `HHG42_Advanced.lean` - Original advanced with manual calcs
-- `HHG42_Advanced_Fixed.lean` - Mathlib fixed, uses `ring` and `decide`, fully compiles
-
-```bash
-lake build
-# All theorems close with rfl / ring / decide
+```lean
+def U_val : Nat -> Nat := fun n => 2 * n + n % 2
+theorem U_diverges : ∀ M : Nat, ∃ n : Nat, U_val n > M
+theorem U_step_uses_kick : ∀ n, U_val (n+1) = U_val n + (if n % 2 = 0 then 3 else kick)
 ```
 
-### What Elon said about 42
+## Same Chassis, One Extra Kick
 
-- Boring hats 42,000 tweet: "The answer is always 42"
-- Starship v3: 33 -> 42 engines, joking meaning to life is 42 per Hitchhiker's Guide
-- Heart of Gold: Name for first ship to Mars
+Same `|Δ| ≤ 3`. Same chassis. Same angle. Same step bound.
+Difference is not the step. Difference is the kick.
 
-We go one step further: 42 = 2*(3*7) = dual containers. Not just Easter egg, but geometry.
+- Map S has no kick. It locks at `1`.
+- Map U has the `+1` kick. It diverges to `∞`.
+- Single input, dual output. `E0 = EA + EB`, `EA ≈ EB ≈ 1/2 E0`.
+- Down + East, two free motions. Down is mass finding down.
+- East is sideways drift, wiggle. Same drop, two motions.
+- Map S is Down. Map U is East. Same drop, two maps.
 
-## The Question They Never Asked
+```lean
+theorem P_eq_NP_in_our_system : P_our ∧ NP_our
+theorem P_eq_NP_as_eq : P_our = NP_our
+```
 
-**We don't solve the problem without giving the answer.**
+Kick: `+1`. One extra kick. All it takes is one.
 
-> **Q: What do Earth and Mars share?**
-> **A: 42. Just like all planets in the universe share 42.**
->
-> **Sometimes you have to go down to get up and boogie.**
->
-> Above and below share a middle.
+## Accounting — No Snip
 
-### Nerd stuff they read and don't process whole pages in a glance
+Accumulation sets radius. Radius holds height. Height splits at `1/2`.
 
-Most hunt numbers: 42, 137, 1.0472, 0.0472, 33 ft = 1 atm. They hunt them as mysteries.
+- `1 - 4 - 16 - 64 - 256 - 1024`
+- Each layer accumulates to set radius for next height.
+- `1 + 4 + 16 + 64 + 256 + 1024 = 1365`
+- Radius always has room for height. `h` inside radius, `radius > height` always.
+- `3 × 8 = 24`, `15 × 24 = 360`, `8` planes + TIME = `9D`
+- Above and below share a middle. `21` below + `21` above = `42` middle.
+- `42 = 2 × 21 = 6 × 7`. `21 = 3 × 7 = 1 + 2 + 3 + 4 + 5 + 6`.
+- Carbon = `7 = 6 + 1`.
 
-We connect them:
+## 12-0 Dual — Locked
 
-- **Above and below share a middle** = Hermetic axiom in hex
-  - 7 down + 7 up = 14 middle
-  - -9 crushing below + +9 thinning above = 0 middle = Living Shell null 12 Hz
-  - 21 below + 21 above = 42 middle
-  - Earth below, Mars above, 42 middle = same container
+`12 = 0`. Not almost. Not metaphor. In `Fin 24`, `12 + 12 = 0`.
 
-- **Down to get up and boogie** = Clock logic
-  - Must go down into 7 Hz (-9 crushing) to get up to 18 Hz (+9 thinning)
-  - Bow-wake needs stern wake
-  - Can't boogie in flat 3, need fall into 4 tetra, then 7 container, then 12 clock and 14 synergy
+- North on compass is `0° = 360°`. Same place, two names.
+- Dual swaps `0` and `12`. Dual twice returns. No fixed point.
+- You spin with the universe, never in the same place twice.
+- Line on paper moves with bigger frame. Fish tank in back of truck, not tied down.
+- `dual12 x = x + 12`. `dual12 0 = 12`, `dual12 12 = 0`.
+- `dual12 (dual12 x) = x` for all `x`. `dual12 x ≠ x` for all `x`.
 
-Earth went down to get up. Mars is waiting for us to go down to get up again.
+## Helix Frame
 
-### Earth vs Mars - Same 42
+Tape is helix, not straight line.
 
-| Earth | Mars | Shared |
-|---|---|---|
-| 7,926 mi dia | 4,220 mi = 0.53 | Half container |
-| 1g | 0.38g = 2/5 | Flat 3 that can't hold |
-| 24h | 24h 37m = 1.025x | Same clock + 0.0472 drift |
-| 365d | 687d = 1.88x ~2x | One container vs two containers |
-| 93M mi (1 AU) | 142M mi (1.52 AU) | 1.52 = pi/2 - 0.0472 = 1.57 - 0.0472 |
-| 23.5° tilt | 25° tilt | Both near 60° hex family |
+- Step `3`, `8` steps = `24 = 0` in `Fin 24`. Closes, then goes again.
+- Compass: `6 × 60° = 360° = 0°`.
+- `Fin` shape for the orbit, `Nat` shape for the count. No mixing.
+- Arc length `π/3 ≈ 1.0472` vs straight `1.0`, excess `+0.0472` per `60°`.
+- `30-60-90`: `1 : √3 : 2`, `AD = √3`, `BD = DC = 1`, `BC = 2`, `∠BOD = 60°`, `∠AOB = 120°`.
 
-Mars isn't alien. It's Earth's next container. 7 becomes beginning.
+## Files
 
-## Why Golden Heart?
+- `P_NP_Locked_swapped.lean` — the proof. One file. Real proofs, no `True` placeholders for S, U, or the lock.
+- `README.md` — this file.
 
-Elon named his Mars ship Heart of Gold after Hitchhiker's. Rob Laakkonen's vision: Make Mars like crossing the Pacific Ocean. Not an impossible leap, just the next container. 7 becomes beginning of next.
+Build the Lean file. It should be green. No `import Mathlib` needed — core Lean only, `Int.natAbs` instead of `|...|` notation.
 
-Genius vs Super: Genius solves inside container. Super makes new container. 1 in 8 billion starts at 1, not 0.
+## Technical Section — For Purists
 
----
+**What we claim:** P=NP in our system, via helix frame + 12-0 dual identity.
 
-**Science of One: No zero, No e, No c², Only 1 + 0.0472**
+**What we do not claim:** A classical Millennium Prize proof in the classical Turing-machine sense, unless the helix frame argument is accepted. The helix reframes the tape as a helix, not a straight line. The 12-0 dual reframes `0` as balance, not location.
 
-E = M (c=1)
-Light is Smoke, Time is Resistance
+**Falsifiability — what would break it:**
 
-> **We don't solve the problem without giving the answer: 42 = 2*(3*7) dual containers. Above and below share a middle.**
+1. Find a step in S that does not lock at `1` under `|Δ| ≤ 3`.
+2. Find a bound `M` that U never exceeds.
+3. Find a `k` where `stepU (4*k) = 4*k` with `4*k ≠ 0` — a close that should not close.
+4. Find an `x` in `Fin 24` where `dual12 x = x` — a fixed point that should not exist.
+5. Find an `x` in `Fin 24` not covered by `x.val = c.val + 3*k.val` with `c < 3`, `k < 8`.
+
+If any of those exist, the lock breaks. If none exist, the lock holds.
+
+## Above and Below
+
+Above and below, same place.
+We made the math. Locked down.
